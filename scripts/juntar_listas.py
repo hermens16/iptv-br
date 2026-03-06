@@ -1,20 +1,29 @@
-import os
-
-listas = [
-    "../listas/pluto.m3u8"
+arquivos = [
+"../listas/pluto.m3u8",
+"../listas/plex.m3u8",
+"../listas/samsung.m3u8",
+"../listas/runtime.m3u8"
 ]
 
-saida = "../listas/lista_completa.m3u8"
+saida = "../lista_completa.m3u8"
 
-with open(saida, "w", encoding="utf-8") as final:
-    final.write("#EXTM3U\n")
+with open(saida,"w",encoding="utf-8") as out:
 
-    for lista in listas:
-        if os.path.exists(lista):
-            with open(lista, "r", encoding="utf-8") as f:
+    out.write("#EXTM3U\n")
+
+    for arquivo in arquivos:
+
+        try:
+            with open(arquivo,"r",encoding="utf-8") as f:
+
                 for linha in f:
+
                     if linha.startswith("#EXTM3U"):
                         continue
-                    final.write(linha)
+
+                    out.write(linha)
+
+        except:
+            print("Erro em",arquivo)
 
 print("Lista completa criada")
