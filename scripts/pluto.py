@@ -1,7 +1,7 @@
 import json
 import urllib.request
 
-url = "https://api.pluto.tv/v2/channels?start=0&stop=500&country=BR"
+url = "https://api.pluto.tv/v2/channels.json?start=0&stop=1000"
 
 headers = {
     "User-Agent": "Mozilla/5.0",
@@ -16,9 +16,11 @@ with urllib.request.urlopen(req) as response:
     data = json.loads(response.read().decode())
 
 with open("../listas/pluto.m3u8", "w", encoding="utf-8") as f:
+
     f.write("#EXTM3U\n")
 
-    for canal in data:
+    for canal in data["channels"]:
+
         nome = canal["name"]
         logo = canal.get("solidLogoPNG", {}).get("path", "")
         canal_id = canal["_id"]
